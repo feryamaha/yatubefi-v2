@@ -1,0 +1,26 @@
+{
+  "desenhos": [
+    { "id": "kVB8litlPHU", "type": "youtube", "title": "Turma da Mônica" },
+    { "id": "6amyMiFnOf8", "type": "youtube", "title": "Bob Esponja" },
+    { "id": "PMn3HWONYDM", "type": "youtube", "title": "Kamalu" }
+  ],
+  "filmes": [
+    { "id": "66ErwhRlE5s", "type": "youtube", "title": "Frozen 2" },
+    { "id": "bysEN0AYU14", "type": "youtube", "title": "Lilo e Stitch" },
+    {
+      "url": "/assets/movies-nativos/Patrulha.Canina.O.Filme.Superpoderoso.2023.1080p.mp4",
+      "type": "local",
+      "title": "Patrulha Canina: O Filme Superpoderoso"
+    },
+    {
+      "url": "/assets/movies-nativos/Meu.Malvado.Favorito.4.2024.1080p.mp4",
+      "type": "local",
+      "title": "Meu Malvado Favorito 4"
+    }
+  ],
+  "musicas": [
+    { "id": "n9ykiGpGgbU", "type": "youtube", "title": "3 Palavrinhas" },
+    { "id": "nUsCZLJfiPk", "type": "youtube", "title": "Patinho Colorido" },
+    { "id": "ESxlZiPb-Gk", "type": "youtube", "title": "Pula na Muralha" }
+  ]
+}

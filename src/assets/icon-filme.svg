@@ -1,0 +1,14 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="48" height="48" rx="10" fill="black"/>
+<rect x="3" y="8" width="5" height="5" fill="white"/>
+<rect x="3" y="15" width="5" height="5" fill="white"/>
+<rect x="3" y="22" width="5" height="5" fill="white"/>
+<rect x="3" y="29" width="5" height="5" fill="white"/>
+<rect x="3" y="36" width="5" height="5" fill="white"/>
+<rect x="40" y="8" width="5" height="5" fill="white"/>
+<rect x="40" y="15" width="5" height="5" fill="white"/>
+<rect x="40" y="22" width="5" height="5" fill="white"/>
+<rect x="40" y="29" width="5" height="5" fill="white"/>
+<rect x="40" y="36" width="5" height="5" fill="white"/>
+<path d="M31 26L19.75 31.1962V20.8038L31 26Z" fill="white"/>
+</svg>

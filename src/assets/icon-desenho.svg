@@ -1,0 +1,36 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="48" height="48" rx="10" fill="black"/>
+<line y1="-0.5" x2="5.89554" y2="-0.5" transform="matrix(0.987902 0.155081 -0.174244 0.984702 15 34.6001)" stroke="white"/>
+<line y1="-0.5" x2="7.87268" y2="-0.5" transform="matrix(0.3699 -0.929071 0.942912 0.333041 20.8232 35.5146)" stroke="white"/>
+<line y1="-0.5" x2="9.25807" y2="-0.5" transform="matrix(0.157274 -0.987555 0.990167 0.139893 23.7363 28.1997)" stroke="white"/>
+<path d="M17.5 25L24.7803 19.0001" stroke="white"/>
+<line x1="27.5286" y1="27.1666" x2="24.721" y2="19.2237" stroke="white"/>
+<line y1="-0.5" x2="14.0628" y2="-0.5" transform="matrix(-0.414159 -0.910205 0.927301 -0.374317 29.5596 41)" stroke="white"/>
+<line y1="-0.5" x2="4.54933" y2="-0.5" transform="matrix(0.426746 -0.904372 0.922438 0.386145 29.5596 41)" stroke="#FFFCFC"/>
+<circle cx="25" cy="15" r="3.5" fill="#FFF9FD" stroke="black"/>
+<ellipse cx="29" cy="11.5" rx="3" ry="2.5" fill="white"/>
+<ellipse cx="22" cy="10.5" rx="3" ry="2.5" fill="white"/>
+<path d="M30.0352 11.2637C30.0352 11.816 29.5874 12.2637 29.0352 12.2637C28.4829 12.2637 28.0352 11.816 28.0352 11.2637C28.0352 10.7114 28.4829 10.2637 29.0352 10.2637C29.5874 10.2637 30.0352 10.7114 30.0352 11.2637Z" fill="black"/>
+<path d="M30.0352 11.2637C30.0352 11.816 29.5874 12.2637 29.0352 12.2637C28.4829 12.2637 28.0352 11.816 28.0352 11.2637C28.0352 10.7114 28.4829 10.2637 29.0352 10.2637C29.5874 10.2637 30.0352 10.7114 30.0352 11.2637Z" fill="black"/>
+<path d="M30.0352 11.2637C30.0352 11.816 29.5874 12.2637 29.0352 12.2637C28.4829 12.2637 28.0352 11.816 28.0352 11.2637C28.0352 10.7114 28.4829 10.2637 29.0352 10.2637C29.5874 10.2637 30.0352 10.7114 30.0352 11.2637Z" fill="black"/>
+<circle cx="22" cy="10" r="1" fill="black"/>
+<circle cx="22" cy="10" r="1" fill="black"/>
+<circle cx="22" cy="10" r="1" fill="black"/>
+<circle cx="25.5" cy="15.5" r="0.5" fill="black"/>
+<circle cx="25.5" cy="15.5" r="0.5" fill="black"/>
+<circle cx="25.5" cy="15.5" r="0.5" fill="black"/>
+<circle cx="17" cy="25" r="0.9375" fill="white"/>
+<circle cx="17" cy="25" r="0.9375" fill="white"/>
+<circle cx="17" cy="25" r="0.9375" fill="white"/>
+<circle cx="17" cy="25" r="0.9375" stroke="white" stroke-width="0.125"/>
+<circle cx="17" cy="25" r="0.9375" stroke="white" stroke-width="0.125"/>
+<circle cx="28" cy="27" r="0.9375" fill="white"/>
+<circle cx="28" cy="27" r="0.9375" stroke="white" stroke-width="0.125"/>
+<circle cx="28" cy="27" r="0.9375" stroke="white" stroke-width="0.125"/>
+<circle cx="24.5" cy="13.5" r="0.5" fill="black"/>
+<circle cx="24.5" cy="13.5" r="0.5" fill="black"/>
+<circle cx="24.5" cy="13.5" r="0.5" fill="black"/>
+<circle cx="26.5" cy="13.5" r="0.5" fill="black"/>
+<circle cx="26.5" cy="13.5" r="0.5" fill="black"/>
+<circle cx="26.5" cy="13.5" r="0.5" fill="black"/>
+</svg>

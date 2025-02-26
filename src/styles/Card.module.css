@@ -1,0 +1,133 @@
+.cardContainer {
+  padding: 20px 0;
+  margin-bottom: 60px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1440px;
+  box-sizing: border-box;
+  justify-content: space-between;
+  min-height: 0;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: calc(33.33% - 20px);
+}
+
+h2 {
+  color: var(--secondary);
+  text-align: center;
+}
+
+.cards {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 50%;
+}
+
+.card {
+  padding: 2%;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-image: linear-gradient(
+    to right,
+    #232526 0%,
+    #414345 51%,
+    #232526 100%
+  );
+  transition: 0.5s;
+  background-size: 200% auto;
+  width: 150px;
+  height: 180px;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.card p {
+  font-size: 12px;
+  margin: 0;
+}
+
+.icon {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8%;
+}
+
+.card:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (max-width: 1024px) {
+  .cardContainer {
+    flex-direction: column;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 0;
+    padding: 20px 0;
+  }
+  .category {
+    max-width: 100%;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  .card {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cardContainer {
+    width: 100%;
+/*     padding-top: 20px;
+    padding-bottom: 60px; 
+    padding-left: 10px; 
+    padding-right: 10px; */
+    padding: 0;
+    margin: 0 auto; /* Centraliza */
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas fixas */
+    gap: 20px; /* Aumentado para mais espaço entre cards */
+    width: 90%; /* Usa toda a largura disponível */
+  }
+  .card {
+    padding: 2%;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    width: 90%; /* Ajusta ao tamanho da coluna */
+    height: auto; /* Altura flexível para evitar sobreposição */
+  }
+}
+
+@media (max-width: 480px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr); /* Mantém 2 colunas */
+  }
+  .card {
+    padding: 8px;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+  }
+}
