@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/VideoForm.module.css";
 
 function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
@@ -11,7 +11,24 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
-  const correctPassword = "050519"; // Temporário, será movido para o backend
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
+  const fetchVideos = async () => {
+    try {
+      const response = await fetch(
+        "https://api-emtlmo8gy-fernando-moreiras-projects-ff843e9d.vercel.app/api/videos"
+      );
+      const data = await response.json();
+      Object.keys(data).forEach((category) => {
+        data[category].forEach((video) => addVideo(video));
+      });
+    } catch (error) {
+      console.error("Erro ao carregar vídeos:", error);
+    }
+  };
 
   const getYouTubeId = (url) => {
     const regex = /[?&]v=([^&#]*)/;
@@ -32,7 +49,33 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
     if (image) setCustomImage(image);
   };
 
-  const handleSubmit = (e) => {
+  const manageVideosOnBackend = async (
+    action,
+    video = null,
+    videoId = null
+  ) => {
+    try {
+      const response = await fetch(
+        "https://api-emtlmo8gy-fernando-moreiras-projects-ff843e9d.vercel.app/api/manage-videos",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password, action, video, videoId }),
+        }
+      );
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(data.error || "Erro ao gerenciar vídeos.");
+      console.log(data.message);
+      if (action !== "delete") fetchVideos();
+    } catch (error) {
+      console.error("Erro ao comunicar com o backend:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let newVideo;
 
@@ -74,25 +117,12 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
 
     if (editingVideo) {
       editVideo(newVideo);
+      await manageVideosOnBackend("edit", newVideo);
       setEditingVideo(null);
     } else {
       addVideo(newVideo);
+      await manageVideosOnBackend("add", newVideo);
     }
-
-    const updatedVideos = {
-      desenhos: videos.desenhos || [],
-      filmes: videos.filmes || [],
-      musicas: videos.musicas || [],
-    };
-    if (editingVideo) {
-      updatedVideos[category.toLowerCase()] = updatedVideos[
-        category.toLowerCase()
-      ].map((v) => (v.id === newVideo.id ? newVideo : v));
-    } else {
-      updatedVideos[category.toLowerCase()].push(newVideo);
-    }
-    // Salva apenas localmente, sem integração com GitHub
-    localStorage.setItem("videos", JSON.stringify(updatedVideos));
 
     setTitle("");
     setUrl("");
@@ -112,26 +142,19 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
     setShowPassword(false);
   };
 
-  const handleDelete = (videoId) => {
+  const handleDelete = async (videoId) => {
     deleteVideo(videoId);
-
-    const updatedVideos = {
-      desenhos: (videos.desenhos || []).filter((v) => v.id !== videoId),
-      filmes: (videos.filmes || []).filter((v) => v.id !== videoId),
-      musicas: (videos.musicas || []).filter((v) => v.id !== videoId),
-    };
-    // Salva apenas localmente, sem integração com GitHub
-    localStorage.setItem("videos", JSON.stringify(updatedVideos));
+    await manageVideosOnBackend("delete", null, videoId);
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     const updatedVideos = {
       desenhos: videos.desenhos || [],
       filmes: videos.filmes || [],
       musicas: videos.musicas || [],
     };
-    localStorage.setItem("videos", JSON.stringify(updatedVideos));
-    alert("Alterações salvas com sucesso localmente!");
+    await manageVideosOnBackend("save", updatedVideos);
+    alert("Alterações salvas com sucesso!");
   };
 
   const handleToggleForm = () => {
@@ -147,17 +170,33 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
     }
   };
 
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     if (window.innerWidth <= 1024) return;
-    if (password === correctPassword) {
-      setIsFormVisible(true);
-      setShowPassword(false);
-      setPassword("");
-      if (window.innerWidth < 768) toggleForm();
-    } else {
-      alert("Senha incorreta!");
-      setPassword("");
+    try {
+      const response = await fetch(
+        "https://api-emtlmo8gy-fernando-moreiras-projects-ff843e9d.vercel.app/api/verify-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password }),
+        }
+      );
+      const data = await response.json();
+      if (data.valid) {
+        setIsFormVisible(true);
+        setShowPassword(false);
+        setPassword("");
+        if (window.innerWidth < 768) toggleForm();
+      } else {
+        alert("Senha incorreta!");
+        setPassword("");
+      }
+    } catch (error) {
+      console.error("Erro ao verificar senha:", error);
+      alert("Erro ao verificar senha!");
     }
   };
 

@@ -2,3 +2,6 @@
 node_modules/
 node_modules/.vite/deps/*
 dist/
+vercel.json
+encrypted-dynamic-videos.json
+
