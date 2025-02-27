@@ -2,7 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const fetch = require('node-fetch');
 const fs = require('fs');
-const cors = require('cors'); // Adiciona o pacote cors
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -21,7 +21,7 @@ const FORM_PASSWORD_HASH = process.env.FORM_PASSWORD_HASH;
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
 
 if (!GITHUB_TOKEN || !FORM_PASSWORD_HASH || !ENCRYPTION_KEY) {
-    throw new Error('Variáveis de ambiente não definidas. Verifique o arquivo .env.');
+    throw new Error('Variáveis de ambiente não definidas. Verifique o Vercel ou .env.');
 }
 
 const encryptData = (data) => {
