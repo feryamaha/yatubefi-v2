@@ -1,8 +1,13 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-    plugins: [react()],
-    base: '/yatubefi-v2/' // Certifique-se de que é exatamente isso
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, process.cwd(), '')
+    return {
+        plugins: [react()],
+        base: '/yatubefi-v2/',
+        define: {
+            'process.env': env
+        }
+    }
 })

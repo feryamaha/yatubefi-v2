@@ -13,6 +13,16 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
   const [password, setPassword] = useState("");
   const correctPassword = "050519";
 
+  const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
+  if (!GITHUB_TOKEN) {
+    console.warn(
+      "GITHUB_TOKEN não definido. A integração com o GitHub não funcionará."
+    );
+  }
+  const REPO_OWNER = "feryamaha";
+  const REPO_NAME = "yatubefi-v2";
+  const FILE_PATH = "src/data/dynamic-videos.json";
+
   const getYouTubeId = (url) => {
     const regex = /[?&]v=([^&#]*)/;
     const match = regex.exec(url);
@@ -32,7 +42,59 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
     if (image) setCustomImage(image);
   };
 
-  const handleSubmit = (e) => {
+  const updateGitHubFile = async (updatedVideos) => {
+    if (!GITHUB_TOKEN) {
+      console.error(
+        "Token do GitHub não definido. Não é possível atualizar o repositório."
+      );
+      return;
+    }
+    try {
+      const response = await fetch(
+        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+        {
+          headers: {
+            Authorization: `token ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github.v3+json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) throw new Error("Erro ao buscar SHA: " + data.message);
+      const sha = data.sha;
+
+      const content = btoa(JSON.stringify(updatedVideos, null, 2));
+      const updateResponse = await fetch(
+        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `token ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github.v3+json",
+          },
+          body: JSON.stringify({
+            message: "Atualizar dynamic-videos.json via VideoForm",
+            content: content,
+            sha: sha,
+            branch: "main",
+          }),
+        }
+      );
+
+      if (updateResponse.ok) {
+        console.log("Arquivo atualizado no GitHub!");
+      } else {
+        console.error(
+          "Erro ao atualizar o arquivo:",
+          await updateResponse.json()
+        );
+      }
+    } catch (error) {
+      console.error("Erro na API do GitHub:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let newVideo;
 
@@ -78,6 +140,21 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
     } else {
       addVideo(newVideo);
     }
+
+    const updatedVideos = {
+      desenhos: videos.desenhos || [],
+      filmes: videos.filmes || [],
+      musicas: videos.musicas || [],
+    };
+    if (editingVideo) {
+      updatedVideos[category.toLowerCase()] = updatedVideos[
+        category.toLowerCase()
+      ].map((v) => (v.id === newVideo.id ? newVideo : v));
+    } else {
+      updatedVideos[category.toLowerCase()].push(newVideo);
+    }
+    await updateGitHubFile(updatedVideos);
+
     setTitle("");
     setUrl("");
     setLocalFile(null);
@@ -96,17 +173,25 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
     setShowPassword(false);
   };
 
-  const handleDelete = (videoId) => {
+  const handleDelete = async (videoId) => {
     deleteVideo(videoId);
+
+    const updatedVideos = {
+      desenhos: (videos.desenhos || []).filter((v) => v.id !== videoId),
+      filmes: (videos.filmes || []).filter((v) => v.id !== videoId),
+      musicas: (videos.musicas || []).filter((v) => v.id !== videoId),
+    };
+    await updateGitHubFile(updatedVideos);
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     const updatedVideos = {
       desenhos: videos.desenhos || [],
       filmes: videos.filmes || [],
       musicas: videos.musicas || [],
     };
     localStorage.setItem("videos", JSON.stringify(updatedVideos));
+    await updateGitHubFile(updatedVideos);
     alert("Alterações salvas com sucesso!");
   };
 
