@@ -11,17 +11,7 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
-  const correctPassword = "050519";
-
-  const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
-  if (!GITHUB_TOKEN) {
-    console.warn(
-      "GITHUB_TOKEN não definido. A integração com o GitHub não funcionará."
-    );
-  }
-  const REPO_OWNER = "feryamaha";
-  const REPO_NAME = "yatubefi-v2";
-  const FILE_PATH = "src/data/dynamic-videos.json";
+  const correctPassword = "050519"; // Temporário, será movido para o backend
 
   const getYouTubeId = (url) => {
     const regex = /[?&]v=([^&#]*)/;
@@ -42,59 +32,7 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
     if (image) setCustomImage(image);
   };
 
-  const updateGitHubFile = async (updatedVideos) => {
-    if (!GITHUB_TOKEN) {
-      console.error(
-        "Token do GitHub não definido. Não é possível atualizar o repositório."
-      );
-      return;
-    }
-    try {
-      const response = await fetch(
-        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
-        {
-          headers: {
-            Authorization: `token ${GITHUB_TOKEN}`,
-            Accept: "application/vnd.github.v3+json",
-          },
-        }
-      );
-      const data = await response.json();
-      if (!response.ok) throw new Error("Erro ao buscar SHA: " + data.message);
-      const sha = data.sha;
-
-      const content = btoa(JSON.stringify(updatedVideos, null, 2));
-      const updateResponse = await fetch(
-        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `token ${GITHUB_TOKEN}`,
-            Accept: "application/vnd.github.v3+json",
-          },
-          body: JSON.stringify({
-            message: "Atualizar dynamic-videos.json via VideoForm",
-            content: content,
-            sha: sha,
-            branch: "main",
-          }),
-        }
-      );
-
-      if (updateResponse.ok) {
-        console.log("Arquivo atualizado no GitHub!");
-      } else {
-        console.error(
-          "Erro ao atualizar o arquivo:",
-          await updateResponse.json()
-        );
-      }
-    } catch (error) {
-      console.error("Erro na API do GitHub:", error);
-    }
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let newVideo;
 
@@ -153,7 +91,8 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
     } else {
       updatedVideos[category.toLowerCase()].push(newVideo);
     }
-    await updateGitHubFile(updatedVideos);
+    // Salva apenas localmente, sem integração com GitHub
+    localStorage.setItem("videos", JSON.stringify(updatedVideos));
 
     setTitle("");
     setUrl("");
@@ -173,7 +112,7 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
     setShowPassword(false);
   };
 
-  const handleDelete = async (videoId) => {
+  const handleDelete = (videoId) => {
     deleteVideo(videoId);
 
     const updatedVideos = {
@@ -181,18 +120,18 @@ function VideoForm({ addVideo, editVideo, deleteVideo, videos, toggleForm }) {
       filmes: (videos.filmes || []).filter((v) => v.id !== videoId),
       musicas: (videos.musicas || []).filter((v) => v.id !== videoId),
     };
-    await updateGitHubFile(updatedVideos);
+    // Salva apenas localmente, sem integração com GitHub
+    localStorage.setItem("videos", JSON.stringify(updatedVideos));
   };
 
-  const handleSaveChanges = async () => {
+  const handleSaveChanges = () => {
     const updatedVideos = {
       desenhos: videos.desenhos || [],
       filmes: videos.filmes || [],
       musicas: videos.musicas || [],
     };
     localStorage.setItem("videos", JSON.stringify(updatedVideos));
-    await updateGitHubFile(updatedVideos);
-    alert("Alterações salvas com sucesso!");
+    alert("Alterações salvas com sucesso localmente!");
   };
 
   const handleToggleForm = () => {
