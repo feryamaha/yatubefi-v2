@@ -8,6 +8,17 @@ require('dotenv').config();
 
 const app = express();
 
+// Configuração manual de CORS como fallback
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://feryamaha.github.io');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
+
 // Configura CORS para permitir requisições de https://feryamaha.github.io
 app.use(cors({
     origin: 'https://feryamaha.github.io',
