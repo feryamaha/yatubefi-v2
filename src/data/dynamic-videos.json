@@ -41,16 +41,7 @@
       "isLocal": false
     }
   ],
-  "filmes": [
-    {
-      "id": 1740423821774,
-      "title": "Moana_1",
-      "url": "/assets/movies-nativos/Moana_1.mp4",
-      "image": "/assets/img-card/moana.webp",
-      "category": "Filmes",
-      "isLocal": true
-    }
-  ],
+  "filmes": [],
   "musicas": [
     {
       "id": 1740421566605,
